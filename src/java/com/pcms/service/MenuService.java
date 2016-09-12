@@ -14,6 +14,6 @@ public class MenuService {
     private MenuRepository _menuRepository;
 
     public List<Map<String, String>> get() {
-        return _menuRepository.getMenu();
+        return _menuRepository.query();
     }
 }

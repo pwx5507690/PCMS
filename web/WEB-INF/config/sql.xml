@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-   <item id="queryMenu">
-      select * from menu;
-   </item>
-   
    <item id="createCustomTable">
        CREATE TABLE {tbl}(
          id int auto_increment primary key,
          {col}
          updateTime timestamp not null default current_timestamp
        );
-       insert into keyAssignment({keyAssignmentCol}) values({keyAssignmentVal})
    </item>
-   
+   <item id="queryCustomTableForPage">
+        select * from %s limit %s,%s
+   </item>
+   <item id="deleteCustomTable">
+        delete from  %s where %s = '%s'
+   </item>
     <item id="queryCustomTable">
-        select * from {tbl}
+        select * from %s
    </item>
 </root>

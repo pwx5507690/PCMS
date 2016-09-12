@@ -8,21 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import com.pcms.data.IDataSource;
 import com.pcms.data.config.SqlRead;
+import com.pcms.modal.SqlField;
 
 @Repository("_menuRepository")
-public class MenuRepository {
+public class MenuRepository extends BaseRepository {
 
-    @Autowired
-    private IDataSource iDataSource;
-    @Autowired
-    private SqlRead _read;
-
-    public List<Map<String, String>> getMenu() {
-        try {
-            return iDataSource.getMap(_read.getConfigByName("queryMenu"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public String getTableName() {
+        return "menu";
     }
+
+    @Override
+    public Map<String, SqlField> getParams() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getKey() {
+        return "id";
+    }
+    
 }
