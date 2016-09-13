@@ -13,14 +13,15 @@ import com.pcms.service.MenuService;
 @Controller
 @RequestMapping("/main")
 public class MainController {
-	@Autowired
+
+    @Autowired
     private MenuService _menuService;
-    
-  	@RequestMapping("init")
-  	@ResponseBody
-    public Map<String,List<Map<String, String>>> init(){
-  		Map<String,List<Map<String, String>>> initData = new HashMap<String, List<Map<String, String>>>();
-  		initData.put("menu", _menuService.get());
-  		return initData;
+
+    @RequestMapping("init")
+    @ResponseBody
+    public Map<String, List<Map<String, String>>> init() {
+        Map<String, List<Map<String, String>>> initData = new HashMap<String, List<Map<String, String>>>();
+        initData.put("menu", _menuService.get());
+        return initData;
     }
 }
