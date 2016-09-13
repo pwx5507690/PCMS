@@ -7,6 +7,10 @@
          updateTime timestamp not null default current_timestamp
        );
    </item>
+    
+  <item id="insertCustomTable">
+        insert into %s(%s) values(%s) 
+   </item>
    <item id="queryCustomTableForPage">
         select * from %s limit %s,%s
    </item>

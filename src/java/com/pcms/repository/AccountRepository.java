@@ -12,7 +12,7 @@ public class AccountRepository extends BaseRepository {
 
     @Override
     public String getTableName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "user";
     }
 
     @Override
@@ -22,7 +22,7 @@ public class AccountRepository extends BaseRepository {
 
     @Override
     public String getKey() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return "id";
     }
     
 }
