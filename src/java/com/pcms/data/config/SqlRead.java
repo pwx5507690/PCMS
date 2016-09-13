@@ -14,9 +14,10 @@ public class SqlRead {
 
     private final Map<String, String> _sqlConfig;
 
-    private final Log log = LogFactory.getLog(getClass());
+    private final Log _log;
 
     public SqlRead() {
+        _log = LogFactory.getLog(getClass());
         _sqlConfig = new HashMap<String, String>();
     }
 
@@ -28,7 +29,7 @@ public class SqlRead {
     private void readConfig() {
         String path = getPath();
         File config = new File(path);
-        log.info(config.exists());
+        _log.info(config.exists());
         Document document = null;
         try {
             document = new SAXReader().read(config);
@@ -44,8 +45,7 @@ public class SqlRead {
                 _sqlConfig.put(name, ele.getStringValue());
             }
         } catch (DocumentException e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
+            _log.error(e.getMessage());
         }
     }
 
@@ -58,7 +58,7 @@ public class SqlRead {
         }
 
         String error = "not fount name in config";
-        log.error(error);
+        _log.error(error);
         throw new Exception(error);
     }
 }

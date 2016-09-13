@@ -39,12 +39,6 @@ public class StringUtil extends StringUtils {
         }
     }
 
-    /**
-     * Md5加密
-     *
-     * @param str 字符串
-     * @return 加密后字符串
-     */
     public static final String getMd5(String string) {
         char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         String s = null;
@@ -70,14 +64,6 @@ public class StringUtil extends StringUtils {
         return s;
     }
 
-    /**
-     * 填充左边字符
-     *
-     * @param source 源字符串
-     * @param fill 填充字符
-     * @param len 填充到的长度
-     * @return 填充后的字符串
-     */
     public static final String fillLeft(String source, char fill, int len) {
         StringBuffer ret = new StringBuffer();
         if (null == source) {

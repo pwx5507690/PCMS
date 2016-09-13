@@ -24,8 +24,13 @@ public class MenuRepository extends BaseRepository {
     }
 
     @Override
-    public String getKey() {
-        return "id";
+    public SqlField getKey() {
+        return new SqlField("id",SqlField.Field.STRING);
+    }
+
+    @Override
+    public List<String> getOrderBy() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
