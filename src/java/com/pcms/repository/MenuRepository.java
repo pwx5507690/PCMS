@@ -55,4 +55,9 @@ public class MenuRepository extends BaseRepository {
         return new OrderBy((List<String>) ArrayUtil.getArray("sort"));
     }
 
+    @Override
+    public boolean isCacheQuery() {
+        return false;
+    }
+
 }

@@ -21,16 +21,16 @@ public class ArticleGenerate extends BaseGenerate{
         Map<String, Object> root = getRoot(customTempParams);
         ModalResult modalResult = customTempParams.get(tableName).getQueryResult();
 
-        if (modalResult.isSuccess()) {
-            List<Map<String, String>> data = modalResult.getResult();
+        //if (modalResult.isSuccess()) {
+          //  List<Map<String, String>> data = modalResult.getResult();
           
-            for (Map<String, String> item : data) {
-                ArticleDirective articleDirective = new ArticleDirective(item);
-                root.put(tableName, articleDirective);
+            //for (Map<String, String> item : data) {
+              //  ArticleDirective articleDirective = new ArticleDirective(item);
+               // root.put(tableName, articleDirective);
                 
-                _markeWrite.save(savePath, item.get("temp"), null, root);
-                root.remove(tableName);
-            }
-        }
+               // _markeWrite.save(savePath, item.get("temp"), null, root);
+                //root.remove(tableName);
+            //}
+        //}
     }
 }
