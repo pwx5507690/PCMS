@@ -6,7 +6,7 @@
 package com.pcms.temp.directive;
 
 import com.pcms.modal.ModalResult;
-import com.pcms.service.CustomformService;
+import com.pcms.service.CustomTableService;
 
 
 public class CustomTempParam {
@@ -15,9 +15,9 @@ public class CustomTempParam {
     private ModalResult _result;
     private int _count;  
     private String _order;
-    private final CustomformService _customformService;
+    private final CustomTableService _customformService;
     
-    public CustomTempParam(CustomformService customformService){
+    public CustomTempParam(CustomTableService customformService){
         this._customformService = customformService;
     }
     

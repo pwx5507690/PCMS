@@ -12,10 +12,17 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class CustomTemplateLoader implements TemplateLoader {
-    private final Map<String, ModalTemplateLoader> _templates = new HashMap();
-    private static final Logger _log = Logger.getLogger(CustomTemplateLoader.class);
+
+    private final Map<String, ModalTemplateLoader> _templates;
+
+    private final Logger _log;
 
     private String _folder;
+
+    public CustomTemplateLoader() {
+        _log = Logger.getLogger(getClass());
+        _templates = new HashMap();
+    }
 
     public void AddTemplate(String name, ModalTemplateLoader tempModel) {
         if (name == null || tempModel == null || name.equals("")) {
@@ -47,7 +54,7 @@ public class CustomTemplateLoader implements TemplateLoader {
             return tempModel.getValue();
         } else if (tempModel.getType().equals(ModalTemplateLoader.TemplateLoaderModalType.FILE)) {
             return FileUtil.readFileByBytes(this._folder + tempModel.getValue());
-        } 
+        }
         _log.error("没有找到对应的读取类型");
         return null;
     }

@@ -5,7 +5,7 @@
  */
 package com.pcms.temp.generate;
 
-import com.pcms.service.CustomformService;
+import com.pcms.service.CustomTableService;
 import com.pcms.temp.directive.MarkeWrite;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class CustomTempData {
     @Autowired
-    public CustomformService _customformService;
+    public CustomTableService _customformService;
 
     private Map<String,CustomTempParam> _customTempParams;
 

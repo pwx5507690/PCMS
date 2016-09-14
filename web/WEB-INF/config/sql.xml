@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
    <item id="createCustomTable">
-       CREATE TABLE {tbl}(
+       CREATE TABLE %s(
          id int auto_increment primary key,
-         {col}
+         %s
          updateTime timestamp not null default current_timestamp
        );
    </item>
-    
-  <item id="insertCustomTable">
+   
+   <item id="insertCustomTable">
         insert into %s(%s) values(%s) 
    </item>
    <item id="queryCustomTableForPage">
-        select * from %s limit %s,%s
+        select * from %s %s %s limit %s,%s
    </item>
    <item id="deleteCustomTable">
         delete from  %s where %s = '%s'
    </item>
     <item id="queryCustomTable">
         select * from %s
+   </item>
+    <item id="queryCustomTableWhere">
+        select * from %s Where %s
    </item>
 </root>

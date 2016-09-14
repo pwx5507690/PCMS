@@ -7,9 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import com.pcms.data.config.SqlRead;
 import freemarker.template.*;
 
 @Repository("_tempReposiory ")
