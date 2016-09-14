@@ -11,18 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pcms.modal.ModalResult;
-import com.pcms.service.CustomformService;
+import com.pcms.modal.sql.SqlField;
+import com.pcms.service.CustomTableService;
 
 @Controller
 @RequestMapping("/customform")
 public class CustomformController extends BaseController {
 
-    private CustomformService _customformService;
+    private CustomTableService _customTableService;
 
     @RequestMapping(value = "add/{table}", method = RequestMethod.POST)
     @ResponseBody
-    public ModalResult create(@PathVariable String table, @RequestBody Map<String, String> param) {
-        return _customformService.create(table, param);
+    public ModalResult create(@PathVariable String table, @RequestBody Map<String, SqlField> param) {
+        return new ModalResult();
+       // return _customTableService.create(table, param);
     }
 
     @RequestMapping(value = "{table}", method = RequestMethod.GET)

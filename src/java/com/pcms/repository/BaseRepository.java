@@ -1,8 +1,11 @@
 package com.pcms.repository;
 
+import com.pcms.core.util.DateUtil;
 import com.pcms.data.IDataSource;
 import com.pcms.data.config.SqlRead;
-import com.pcms.modal.SqlField;
+import com.pcms.modal.sql.OrderBy;
+import com.pcms.modal.sql.SqlField;
+import com.pcms.modal.sql.SqlFieldWhere;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class BaseRepository {
 
     @Autowired
-    private IDataSource iDataSource;
+    protected IDataSource iDataSource;
     @Autowired
-    private SqlRead _read;
+    protected SqlRead _read;
+
+    protected final Logger _log;
 
     private final String _dyncTable;
 
@@ -28,7 +33,9 @@ public abstract class BaseRepository {
 
     private final String _dyncTableWhere;
 
-    private final Logger _log;
+    private final String _automaticUuid;
+
+    private final String _automaticDateTime;
 
     public BaseRepository() {
         _insertDyncTable = "insertCustomTable";
@@ -36,6 +43,8 @@ public abstract class BaseRepository {
         _dyncDelete = "deleteCustomTable";
         _dyncTablePage = "queryCustomTableForPage";
         _dyncTableWhere = "queryCustomTableWhere";
+        _automaticUuid = "id";
+        _automaticDateTime = "updateTime";
         _log = Logger.getLogger(getClass());
     }
 
@@ -43,7 +52,7 @@ public abstract class BaseRepository {
         try {
             String order = StringUtils.join(this.getOrderBy(), " ");
             String sql = String.format(_read.getConfigByName(_dyncTable), this.getTableName());
-            sql = sql + this.joinOrderBy();
+            sql = sql + this.getOrderBy().toString();
             return iDataSource.getMap(sql);
         } catch (Exception e) {
             _log.error(e.getMessage());
@@ -51,11 +60,11 @@ public abstract class BaseRepository {
         }
     }
 
-    public List<Map<String, String>> query(List<SqlField> where) {
+    public List<Map<String, String>> query(List<SqlFieldWhere> where) {
         try {
-            String whereStr = this.getWhere(where);
+            String whereStr = SqlFieldWhere.Resolve(where);
             String sql = String.format(_read.getConfigByName(_dyncTableWhere), this.getTableName(), whereStr);
-            sql = sql + this.joinOrderBy();
+            sql = sql + this.getOrderBy().toString();
             return iDataSource.getMap(sql);
         } catch (Exception e) {
             _log.error(e.getMessage());
@@ -63,13 +72,13 @@ public abstract class BaseRepository {
         }
     }
 
-    public List<Map<String, String>> query(int current, int pagesize, List<SqlField> where) {
+    public List<Map<String, String>> query(int current, int pagesize, List<SqlFieldWhere> where) {
         try {
-            String whereStr = this.getWhere(where);
+            String whereStr = SqlFieldWhere.Resolve(where);
             String sql = String.format(_read.getConfigByName(_dyncTablePage),
-                    this.getTableName(), 
+                    this.getTableName(),
                     whereStr,
-                    this.joinOrderBy(), 
+                    this.getOrderBy().toString(),
                     current * pagesize, pagesize);
             return iDataSource.getMap(sql);
         } catch (Exception e) {
@@ -95,14 +104,20 @@ public abstract class BaseRepository {
 
         while (iterator.hasNext()) {
             Map.Entry<String, SqlField> entry = (Map.Entry<String, SqlField>) iterator.next();
-
-            if (!values.containsKey(entry.getKey())) {
-                continue;
-            }
-
-            String val = values.get(entry.getKey());
             SqlField sqlField = entry.getValue();
-            sqlField.setValue(val);
+            String name = entry.getKey();
+
+            if (name.equals(_automaticUuid)) {
+                sqlField.setValue(createId());
+            } else if (name.equals(_automaticDateTime)) {
+                sqlField.setValue(DateUtil.dateFormate(null, DateUtil.FORMAT_SCAPE_HMS));
+            } else {
+                if (!values.containsKey(name)) {
+                    continue;
+                }
+                String val = values.get(name);
+                sqlField.setValue(val);
+            }
 
             if (iterator.hasNext()) {
                 col.append(sqlField.getValue()).append(",");
@@ -144,27 +159,6 @@ public abstract class BaseRepository {
 
     public abstract SqlField getKey();
 
-    public abstract List<String> getOrderBy();
+    public abstract OrderBy getOrderBy();
 
-    private String getWhere(List<SqlField> where) {
-        StringBuilder value = new StringBuilder();
-        boolean isFirst = true;
-        for (SqlField item : where) {
-            if (isFirst) {
-                isFirst = false;
-                value.append(item.getName()).append("=").append(item.getValue());
-            } else {
-                value.append(" and ").append(item.getName()).append("=").append(item.getValue());
-            }
-        }
-        return value.toString();
-    }
-
-    private String joinOrderBy() {
-        List<String> order = this.getOrderBy();
-        if (order != null) {
-            StringUtils.join(order, "  ");
-        }
-        return StringUtils.EMPTY;
-    }
 }

@@ -1,14 +1,20 @@
-package com.pcms.modal;
+package com.pcms.modal.sql;
 
-public class SqlField {
+public class SqlField implements java.io.Serializable {
 
     public SqlField(Field type) {
         this._type = type;
     }
-   
-    public SqlField(String name,Field type) {
+
+    public SqlField(String name, Field type) {
         this._name = name;
         this._type = type;
+    }
+
+    public SqlField(String name, Field type, String value) {
+        this._name = name;
+        this._type = type;
+        this._value = value;
     }
 
     /**
@@ -56,12 +62,7 @@ public class SqlField {
         this._name = _name;
     }
 
-    public enum Field {
-        STRING,
-        INT,
-        DATETIME,
-        DOUBLE
-    }
+ 
     private String _value;
     private Field _type;
     private String _name;

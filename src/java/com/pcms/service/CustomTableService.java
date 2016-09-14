@@ -6,16 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pcms.modal.ModalResult;
-import com.pcms.repository.CustomformRepository;
+import com.pcms.modal.sql.SqlField;
+import com.pcms.repository.CustomTableRepository;
 import java.util.List;
 
-@Service("_customformService ")
-public class CustomformService {
+@Service("_customTableService ")
+public class CustomTableService {
 
     @Autowired
-    private CustomformRepository _customformRepository;
+    private CustomTableRepository _customformRepository;
 
-    public ModalResult create(String table, Map<String, String> param) {
+    public int create(String table, Map<String, SqlField> param) {
         return _customformRepository.create(table, param);
     }
     

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
    <item id="createCustomTable">
-       CREATE TABLE {tbl}(
+       CREATE TABLE %s(
          id int auto_increment primary key,
-         {col}
+         %s
          updateTime timestamp not null default current_timestamp
        );
    </item>
-    
+   
    <item id="insertCustomTable">
         insert into %s(%s) values(%s) 
    </item>

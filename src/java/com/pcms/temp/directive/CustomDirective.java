@@ -1,7 +1,7 @@
 package com.pcms.temp.directive;
 
 import com.pcms.modal.ModalResult;
-import com.pcms.service.CustomformService;
+import com.pcms.service.CustomTableService;
 import freemarker.core.Environment;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 import freemarker.template.TemplateDirectiveBody;
@@ -19,9 +19,9 @@ public class CustomDirective implements TemplateDirectiveModel {
     
     private static final Logger _log = Logger.getLogger(CustomTemplateLoader.class);
     
-    private final CustomformService _customformService;
+    private final CustomTableService _customformService;
     
-    public  CustomDirective(CustomformService customformService) {
+    public  CustomDirective(CustomTableService customformService) {
         this._customformService = customformService;
     }
     
