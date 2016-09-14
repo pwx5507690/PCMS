@@ -1,5 +1,6 @@
 package com.pcms.repository;
 
+import com.pcms.cache.Redis;
 import com.pcms.core.util.DateUtil;
 import com.pcms.data.IDataSource;
 import com.pcms.data.config.SqlRead;
@@ -11,17 +12,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseRepository {
+public abstract class BaseRepository extends CacheRepository {
 
     @Autowired
     protected IDataSource iDataSource;
     @Autowired
     protected SqlRead _read;
-
-    protected final Logger _log;
 
     private final String _dyncTable;
 
@@ -45,7 +43,6 @@ public abstract class BaseRepository {
         _dyncTableWhere = "queryCustomTableWhere";
         _automaticUuid = "id";
         _automaticDateTime = "updateTime";
-        _log = Logger.getLogger(getClass());
     }
 
     public List<Map<String, String>> query() {
@@ -160,5 +157,7 @@ public abstract class BaseRepository {
     public abstract SqlField getKey();
 
     public abstract OrderBy getOrderBy();
+
+    public abstract boolean isCacheQuery();
 
 }

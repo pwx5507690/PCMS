@@ -57,4 +57,9 @@ public class AccountRepository extends BaseRepository {
       return new OrderBy((List<String>) ArrayUtil.getArray("sort"));
     }
 
+    @Override
+    public boolean isCacheQuery() {
+        return false;
+    }
+
 }

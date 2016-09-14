@@ -81,4 +81,9 @@ public class CustomTableRepository extends BaseRepository {
     public OrderBy getOrderBy() {
         return null;
     }
+
+    @Override
+    public boolean isCacheQuery() {
+        return false;
+    }
 }

@@ -81,12 +81,28 @@ public class Redis {
         return result;
     }
 
+    public void set(String key,String value,int timer){
+         Jedis jedis = null;
+        try {
+            jedis = before().getResource();
+            jedis.del(key);
+            jedis.setex(key, _port, value);
+
+        } catch (Exception e) {
+            _jedisPool.returnBrokenResource(jedis);
+        } finally {
+            _jedisPool.returnResource(jedis);
+        }
+               
+    }
+    
     public void set(String key, String value) {
         Jedis jedis = null;
         try {
             jedis = before().getResource();
             jedis.del(key);
             jedis.set(key, value);
+
         } catch (Exception e) {
             _jedisPool.returnBrokenResource(jedis);
         } finally {
