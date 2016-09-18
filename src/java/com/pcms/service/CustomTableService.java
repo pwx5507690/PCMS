@@ -4,8 +4,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.pcms.modal.ModalResult;
 import com.pcms.modal.sql.SqlField;
 import com.pcms.repository.CustomTableRepository;
 import java.util.List;
@@ -21,10 +19,10 @@ public class CustomTableService {
     }
     
     public  List<Map<String, String>> getTables(){
-        return null;
+       return _customformRepository.query();
     }
     
-    public ModalResult query(String table) {
-        return null;
+    public  List<Map<String, String>>  query(String table) {
+        return _customformRepository.query(table);
     }
 }

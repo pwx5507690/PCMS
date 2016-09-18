@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pcms.temp.directive;
+package com.pcms.temp.generate;
 
+import com.pcms.temp.custom.CustomTemplateLoader;
 import com.alibaba.druid.util.StringUtils;
 import com.pcms.core.util.FileUtil;
 import freemarker.template.Configuration;
@@ -21,16 +22,18 @@ import java.io.Writer;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MarkeWrite {
+public class MarkeWrite extends  com.pcms.common.Common {
 
     @Autowired
     private Configuration _config;
     @Autowired
     private CustomTemplateLoader _customTemplateLoader;
 
-    private static final String _defaultEncoding = "UTF-8";
+    private  final String _defaultEncoding;
 
-    private static final org.apache.log4j.Logger _log = org.apache.log4j.Logger.getLogger(MarkeWrite.class);
+    public MarkeWrite() {
+        this._defaultEncoding = "UTF-8";
+    }
 
     public void init() {
         _config = new Configuration();

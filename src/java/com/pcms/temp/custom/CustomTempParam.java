@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pcms.temp.generate;
+package com.pcms.temp.custom;
 
-import com.pcms.temp.directive.*;
-import com.pcms.modal.ModalResult;
 import com.pcms.service.CustomTableService;
+import java.util.List;
+import java.util.Map;
 
 public class CustomTempParam {
 
     private String _tableName;
     private String _where;
-    private ModalResult _result;
+    private List<Map<String,String>> _result;
     private int _count;
     private String _order;
     private final CustomTableService _customformService;
@@ -22,7 +22,7 @@ public class CustomTempParam {
         this._customformService = customformService;
     }
 
-    public ModalResult getQueryResult() {
+    public List<Map<String,String>> getQueryResult() {
         if (_result == null) {
             _result = this._customformService.query(getTableName());
         }
@@ -46,47 +46,8 @@ public class CustomTempParam {
     public void setTableName(String _tableName) {
         this._tableName = _tableName;
     }
-
-    /**
-     * @return the _where
-     */
-    public String getWhere() {
-        return _where;
+    
+    public CustomProgramTempParam converToCustomProgramTempParam(){
+        return new CustomProgramTempParam(this._customformService);
     }
-
-    /**
-     * @param _where the _where to set
-     */
-    public void setWhere(String _where) {
-        this._where = _where;
-    }
-
-    /**
-     * @return the _count
-     */
-    public int getCount() {
-        return _count;
-    }
-
-    /**
-     * @param _count the _count to set
-     */
-    public void setCount(int _count) {
-        this._count = _count;
-    }
-
-    /**
-     * @return the _order
-     */
-    public String getOrder() {
-        return _order;
-    }
-
-    /**
-     * @param _order the _order to set
-     */
-    public void setOrder(String _order) {
-        this._order = _order;
-    }
-
 }

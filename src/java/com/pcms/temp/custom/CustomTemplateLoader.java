@@ -1,4 +1,4 @@
-package com.pcms.temp.directive;
+package com.pcms.temp.custom;
 
 import com.pcms.core.util.FileUtil;
 import com.pcms.modal.ModalTemplateLoader;

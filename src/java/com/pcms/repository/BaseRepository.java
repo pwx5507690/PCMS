@@ -7,6 +7,7 @@ import com.pcms.data.config.SqlRead;
 import com.pcms.modal.sql.OrderBy;
 import com.pcms.modal.sql.SqlField;
 import com.pcms.modal.sql.SqlFieldWhere;
+import com.pcms.synchronize.ISynchronizeData;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseRepository extends CacheRepository {
+public abstract class BaseRepository  extends CacheRepository implements ISynchronizeData {
 
     @Autowired
     protected IDataSource iDataSource;
@@ -145,7 +146,12 @@ public abstract class BaseRepository extends CacheRepository {
             return -1;
         }
     }
-
+    
+    @Override 
+     public List<?> getData(){
+       return this.query();
+    }
+    
     public String createId() {
         return UUID.randomUUID().toString();
     }

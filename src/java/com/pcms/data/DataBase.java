@@ -4,11 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-public class DataBase {
+public class DataBase extends com.pcms.common.Common {
 
     protected Connection _con;
 
@@ -56,7 +54,6 @@ public class DataBase {
         this._password = _password;
     }
 
-    protected final Log log = LogFactory.getLog(getClass());
 
     protected void openConnection() {
         try {
@@ -64,8 +61,10 @@ public class DataBase {
             this._con = DriverManager.getConnection(_url, _username,
                     _password);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            _log.error(e.getMessage());
+        } catch (SQLException e) {
+            _log.error(e.getMessage());
         }
     }
 
@@ -82,7 +81,7 @@ public class DataBase {
             }
 
         } catch (Exception e) {
-            log.error(e.getMessage());
+            _log.error(e.getMessage());
         }
     }
 }

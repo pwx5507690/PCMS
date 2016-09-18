@@ -54,8 +54,8 @@ public class CacheRepository extends Common {
     @Autowired
     protected Redis _redis;
 
-    public void runSynchronizeData() {
-
+    public void runSynchronizeData(int timer, ISynchronizeData iSynchronizeData) {
+         new DataTask(timer, iSynchronizeData).start();
     }
 
     public void addCache(String key, String value) {

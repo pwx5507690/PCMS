@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.pcms.data.DataBase;
-
 public class MySqlHelper extends DataBase implements IDataSource {
 
     @Override
@@ -18,9 +16,9 @@ public class MySqlHelper extends DataBase implements IDataSource {
             this._con.createStatement();
             this._ps = this._con.prepareStatement(sql);
             this._rs = this._ps.executeQuery();
-            log.info(sql);
+            _log.info(sql);
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            _log.error(e.getMessage());
             e.printStackTrace();
         }
         this.close();
@@ -33,10 +31,9 @@ public class MySqlHelper extends DataBase implements IDataSource {
             this.openConnection();
             this._ps = this._con.prepareStatement(sql);
             ret = this._ps.executeUpdate();
-            log.info(sql);
+            _log.info(sql);
         } catch (SQLException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         this.close();
         return ret;
@@ -74,8 +71,7 @@ public class MySqlHelper extends DataBase implements IDataSource {
                 maps.add(map);
             } while (this._rs.next());
         } catch (SQLException e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         this.close();
         return maps;

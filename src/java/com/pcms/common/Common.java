@@ -5,14 +5,55 @@
  */
 package com.pcms.common;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public  class Common {
+/**
+ * 
+ * @author wx.pan
+ */
+public class Common implements Serializable {
 
     protected final Log _log;
 
+ 
+    @SuppressWarnings("unchecked")
     public Common() {
         _log = LogFactory.getLog(getClass());
-    } 
+    }
+
+    protected Common cpoy() {
+        return clone(this);
+    }
+
+    /**
+     *
+     * @param <T> 对象
+     * @param obj 对象类型
+     * @return 对象 拷贝对象
+     */
+    public <T extends Serializable> T clone(T obj) {
+        T clonedObj = null;
+        try {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(stream);
+            out.writeObject(obj);
+            out.close();
+            ByteArrayInputStream bais = new ByteArrayInputStream(stream.toByteArray());
+            ObjectInputStream os = new ObjectInputStream(bais);
+            clonedObj = (T) os.readObject();
+            stream.close();
+        } catch (IOException e) {
+            _log.error(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            _log.error(e.getMessage());
+        }
+        return clonedObj;
+    }
 }
