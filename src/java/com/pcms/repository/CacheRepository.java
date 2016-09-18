@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class CacheRepository extends Common {
 
-    private class DataTask implements Runnable {
+    private class SyncTask implements Runnable {
 
         public final long _delay;
 
@@ -25,7 +25,7 @@ public class CacheRepository extends Common {
 
         public int _timer;
 
-        public DataTask(int timer, ISynchronizeData iSynchronizeData) {
+        public SyncTask(int timer, ISynchronizeData iSynchronizeData) {
             _timer = timer;
             _delay = 0;
             _iSynchronizeData = iSynchronizeData;

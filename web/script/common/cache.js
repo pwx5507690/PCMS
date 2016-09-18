@@ -9,7 +9,6 @@ define(["util"], function (util) {
         this.remove = function (key) {
             localStorage.removeItem(key);
         };
-
         this.set = function (key, value, interval) {
 
             util.logInfoFormat("cache:key={0};value={1};interval={2}", key,

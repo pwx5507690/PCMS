@@ -9,6 +9,7 @@ import java.io.StringReader;
 import freemarker.cache.TemplateLoader;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class CustomTemplateLoader implements TemplateLoader {
@@ -25,7 +26,7 @@ public class CustomTemplateLoader implements TemplateLoader {
     }
 
     public void AddTemplate(String name, ModalTemplateLoader tempModel) {
-        if (name == null || tempModel == null || name.equals("")) {
+        if (StringUtils.isNotEmpty(name) || name.equals("")) {
             return;
         }
         if (!_templates.containsKey(name)) {

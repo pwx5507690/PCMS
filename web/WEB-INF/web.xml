@@ -10,9 +10,10 @@
     <param-value>/WEB-INF/config/context.xml,
     /WEB-INF/config/jdbc.xml</param-value>
   </context-param>
+  
   <listener>
    <listener-class>
-			com.pcms.listener.InitListener
+	 com.pcms.listener.InitListener
 	</listener-class>  
   </listener>
   <listener>
