@@ -43,6 +43,7 @@ public class Common implements Serializable {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(stream);
+            
             out.writeObject(obj);
             out.close();
             ByteArrayInputStream bais = new ByteArrayInputStream(stream.toByteArray());

@@ -28,6 +28,7 @@ public class XssFilter implements Filter {
     private String _excludeUrls;
     FilterConfig _filterConfig = null;
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         this._filterChar = filterConfig.getInitParameter("FilterChar");
         this._replaceChar = filterConfig.getInitParameter("ReplaceChar");
@@ -36,10 +37,12 @@ public class XssFilter implements Filter {
         this._filterConfig = filterConfig;
     }
 
+    @Override
     public void destroy() {
         this._filterConfig = null;
     }
 
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         if (isExcludeUrl(request)) {

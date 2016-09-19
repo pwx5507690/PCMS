@@ -2,12 +2,14 @@ package com.pcms.repository;
 
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.springframework.stereotype.Repository;
 import com.pcms.modal.sql.Field;
 import com.pcms.modal.sql.OrderBy;
 import com.pcms.modal.sql.SqlField;
+import com.pcms.modal.sql.SqlFieldWhere;
 import java.util.HashMap;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 @Repository("_customTableRepository ")
 public class CustomTableRepository extends BaseRepository {
@@ -53,6 +55,26 @@ public class CustomTableRepository extends BaseRepository {
             return result;
         } catch (Exception e) {
             return -1;
+        }
+    }
+
+    public List<Map<String, String>> queryDataByTableName(String tableName, List<SqlFieldWhere> where, OrderBy orderBy) {
+        String strWhere = StringUtils.EMPTY;
+        String strOrderBy = StringUtils.EMPTY;
+
+        if (where != null) {
+            strWhere = SqlFieldWhere.Resolve(where);
+        }
+        if (orderBy != null) {
+            strOrderBy = orderBy.toString();
+        }
+
+        try {
+            String sql = String.format("%s %s %s", super._read.getConfigByName(super._dyncTable), strWhere, strOrderBy);
+            return iDataSource.getMap(sql);
+        } catch (Exception ex) {
+            _log.error(ex.getMessage());
+            return null;
         }
     }
 

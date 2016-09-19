@@ -5,7 +5,10 @@
  */
 package com.pcms.temp.custom;
 
+import org.apache.commons.lang3.StringUtils;
 import com.pcms.service.CustomTableService;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,6 +22,19 @@ public class CustomProgramTempParam extends CustomTempParam {
 
     public CustomProgramTempParam(CustomTableService customformService) {
         super(customformService);
+    }
+    
+    @Override
+    public void fill(){
+      // super._customformService.query(table,_where)
+    }
+    
+    public Map<String,List<Map>> queryForPage(){
+        return null;
+    }
+    
+    public void clear() {
+        _result = null;
     }
 
     /**

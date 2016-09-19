@@ -5,19 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dom4j.*;
 import org.dom4j.io.*;
 
-public class SqlRead {
+public class SqlRead extends com.pcms.common.Common {
 
     private final Map<String, String> _sqlConfig;
 
-    private final Log _log;
-
-    public SqlRead() {
-        _log = LogFactory.getLog(getClass());
+    public SqlRead() {    
         _sqlConfig = new HashMap<String, String>();
     }
 

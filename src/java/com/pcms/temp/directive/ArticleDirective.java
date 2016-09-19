@@ -5,7 +5,6 @@
  */
 package com.pcms.temp.directive;
 
-import com.pcms.core.util.ObjectUtil;
 import freemarker.core.Environment;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
 import freemarker.template.TemplateDirectiveBody;
@@ -28,7 +27,6 @@ public class ArticleDirective extends com.pcms.common.Common implements Template
 
     @Override
     public void execute(Environment env, Map map, TemplateModel[] tms, TemplateDirectiveBody body) throws TemplateException, IOException {
-       Map<String,String> Properties = ObjectUtil.jsonToMap(_tableInfo.get("customProperties"));
         try {
             
             env.setVariable(_tableInfo.get("tagName"), 

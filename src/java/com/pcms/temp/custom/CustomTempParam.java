@@ -12,11 +12,8 @@ import java.util.Map;
 public class CustomTempParam {
 
     private String _tableName;
-    private String _where;
-    private List<Map<String,String>> _result;
-    private int _count;
-    private String _order;
-    private final CustomTableService _customformService;
+    protected final CustomTableService _customformService;
+    protected List<Map<String,String>> _result;
 
     public CustomTempParam(CustomTableService customformService) {
         this._customformService = customformService;
@@ -24,7 +21,7 @@ public class CustomTempParam {
 
     public List<Map<String,String>> getQueryResult() {
         if (_result == null) {
-            _result = this._customformService.query(getTableName());
+            fill();
         }
         return _result;
     }

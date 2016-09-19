@@ -1,6 +1,4 @@
 package com.pcms.repository;
-
-import com.pcms.cache.Redis;
 import com.pcms.core.util.DateUtil;
 import com.pcms.data.IDataSource;
 import com.pcms.data.config.SqlRead;
@@ -15,26 +13,27 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseRepository  extends CacheRepository implements ISynchronizeData {
+public abstract class BaseRepository extends CacheRepository implements ISynchronizeData {
 
     @Autowired
     protected IDataSource iDataSource;
     @Autowired
     protected SqlRead _read;
 
-    private final String _dyncTable;
+    protected final String _dyncTable;
 
-    private final String _dyncDelete;
+    protected final String _dyncDelete;
 
-    private final String _dyncTablePage;
+    protected final String _dyncTablePage;
 
-    private final String _insertDyncTable;
+    protected final String _insertDyncTable;
 
-    private final String _dyncTableWhere;
+    protected final String _dyncTableWhere;
 
-    private final String _automaticUuid;
+    protected final String _automaticUuid;
 
-    private final String _automaticDateTime;
+    protected final String _automaticDateTime;
+    
 
     public BaseRepository() {
         _insertDyncTable = "insertCustomTable";
@@ -70,13 +69,13 @@ public abstract class BaseRepository  extends CacheRepository implements ISynchr
         }
     }
 
-    public List<Map<String, String>> query(int current, int pagesize, List<SqlFieldWhere> where) {
+    public List<Map<String, String>> query(int current, int pagesize, List<SqlFieldWhere> where, OrderBy orderBy) {
         try {
             String whereStr = SqlFieldWhere.Resolve(where);
             String sql = String.format(_read.getConfigByName(_dyncTablePage),
                     this.getTableName(),
                     whereStr,
-                    this.getOrderBy().toString(),
+                    orderBy.toString(),
                     current * pagesize, pagesize);
             return iDataSource.getMap(sql);
         } catch (Exception e) {
@@ -92,6 +91,10 @@ public abstract class BaseRepository  extends CacheRepository implements ISynchr
             _log.error(e.getMessage());
             return null;
         }
+    }
+
+    public List<Map<String, String>> query(int current, int pagesize, List<SqlFieldWhere> where) {
+        return this.query(current, pagesize, where, this.getOrderBy());
     }
 
     public int add(Map<String, String> values) {
@@ -146,12 +149,12 @@ public abstract class BaseRepository  extends CacheRepository implements ISynchr
             return -1;
         }
     }
-    
-    @Override 
-     public List<?> getData(){
-       return this.query();
+
+    @Override
+    public List<?> getData() {
+        return this.query();
     }
-    
+
     public String createId() {
         return UUID.randomUUID().toString();
     }
