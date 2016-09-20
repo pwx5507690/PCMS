@@ -5,8 +5,9 @@
  */
 package com.pcms.temp.custom;
 
-import org.apache.commons.lang3.StringUtils;
 import com.pcms.service.CustomTableService;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,22 +18,54 @@ import java.util.Map;
 public class CustomProgramTempParam extends CustomTempParam {
 
     private String _where;
-    private int _count;
     private String _order;
+    private int _count;
 
     public CustomProgramTempParam(CustomTableService customformService) {
         super(customformService);
     }
-    
+
     @Override
-    public void fill(){
-      // super._customformService.query(table,_where)
+    public void fill() {
+        if (super._result == null) {
+            super._result = super._customformService.query(super.getTableName(),
+                    _where, _order);
+        }
+
     }
-    
-    public Map<String,List<Map>> queryForPage(){
-        return null;
+
+    public int getPagination() {
+        this.fill();
+        int size = super._result.size();
+        int pagination = size / _count;
+        if (size % _count != 0) {
+            pagination++;
+        }
+        return pagination;
     }
-    
+
+    public Map<String, List<Map<String, String>>> queryForPage() {
+        this.fill();
+        Map<String, List<Map<String, String>>> pageResult = new HashMap();
+        int pageSize = _count - 1;
+        int pageNumbers = 1;
+
+        List<Map<String, String>> excess = new ArrayList();
+        for (int i = 0; i < super._result.size(); i++) {
+            excess.add(super._result.get(i));
+            if (i != 0 && i % pageSize == 0) {
+                pageResult.put(String.valueOf(pageNumbers), excess);
+                pageNumbers++;
+                excess.clear();
+            }
+        }
+        if (excess.size() > 0) {
+            pageResult.put(String.valueOf(pageNumbers + 1), excess);
+        }
+
+        return pageResult;
+    }
+
     public void clear() {
         _result = null;
     }

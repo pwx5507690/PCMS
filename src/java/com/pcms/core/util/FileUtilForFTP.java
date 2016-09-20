@@ -174,7 +174,7 @@ public class FileUtilForFTP {
 	                    OutputStream is = new FileOutputStream(localFile);  
 	                    boolean flag = ftpClient.retrieveFile(ff.getName(), is);
 	                    try{
-	                    AliyunUtil.putObject(localPath + "/" + ff.getName(),  localFile);
+	                   // AliyunUtil.putObject(localPath + "/" + ff.getName(),  localFile);
 	                    localFile.delete();
 	                    }catch (Exception e) {  
 	                    	logger.info("------[上传服务器失败]:"+e+"-----");        	

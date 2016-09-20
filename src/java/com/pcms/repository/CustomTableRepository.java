@@ -58,6 +58,16 @@ public class CustomTableRepository extends BaseRepository {
         }
     }
 
+    public List<Map<String, String>> queryDataByTableName(String tableName, String where, String orderBy) {
+        try {
+            String sql = String.format("%s %s %s", super._read.getConfigByName(super._dyncTable), where, orderBy);
+            return iDataSource.getMap(sql);
+        } catch (Exception ex) {
+            _log.error(ex.getMessage());
+            return null;
+        }
+    }
+
     public List<Map<String, String>> queryDataByTableName(String tableName, List<SqlFieldWhere> where, OrderBy orderBy) {
         String strWhere = StringUtils.EMPTY;
         String strOrderBy = StringUtils.EMPTY;
@@ -69,13 +79,7 @@ public class CustomTableRepository extends BaseRepository {
             strOrderBy = orderBy.toString();
         }
 
-        try {
-            String sql = String.format("%s %s %s", super._read.getConfigByName(super._dyncTable), strWhere, strOrderBy);
-            return iDataSource.getMap(sql);
-        } catch (Exception ex) {
-            _log.error(ex.getMessage());
-            return null;
-        }
+       return queryDataByTableName(tableName,strWhere,strOrderBy);
     }
 
     @Override

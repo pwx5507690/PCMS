@@ -140,7 +140,7 @@ public class ZipUtil {
         }
         return isExist;
     }
-    
+
     public static boolean isPics(String filename) {
         boolean flag = false;
         if (filename.indexOf(".") > -1) {
@@ -158,11 +158,9 @@ public class ZipUtil {
         File directory = new File(dir);
         if (directory.mkdir()) {
         } else // 使用mkdirs()方法可以创建多层级目录
-        {
-            if (directory.mkdirs()) {
+         if (directory.mkdirs()) {
             } else {
             }
-        }
     }
 
     public static void download(String urlString, String filename) {

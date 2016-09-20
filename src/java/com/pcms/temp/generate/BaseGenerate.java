@@ -32,8 +32,7 @@ public abstract class BaseGenerate extends com.pcms.common.Common implements IGe
         while (iterator.hasNext()) {
             Map.Entry<String, CustomTempParam> entry = (Map.Entry<String, CustomTempParam>) iterator.next(); 
             root.put(entry.getKey(), entry.getValue());
-        }
-        
+        }   
         return root;
     }
 }

@@ -10,6 +10,8 @@ import com.pcms.temp.custom.CustomProgramTempParam;
 import com.pcms.temp.custom.CustomTempParam;
 import com.pcms.temp.directive.ProgramDirective;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,21 +35,28 @@ public class ProgramGenerate extends BaseGenerate {
         if (Properties.containsKey("count")) {
             result.setCount(Integer.parseInt(Properties.get("count")));
         }
+
         if (Properties.containsKey("where")) {
             result.setWhere(Properties.get("where"));
         }
+
         if (Properties.containsKey("order")) {
             result.setOrder(Properties.get("order"));
         }
 
+        Map<String, List<Map<String, String>>> pageData = result.queryForPage();
         // 生成一个副本 避免操作数据缓存
         Map<String, Object> clone = new HashMap();
         clone.putAll(root);
-        clone.remove(tableName);
+        Iterator iterator = pageData.entrySet().iterator();
 
-        ProgramDirective programDirective = new ProgramDirective(result, tableInfo);
-        clone.put(tableName, programDirective);
-        _markeWrite.save(savePath, tableInfo.get("temp"), null, clone);
+        while (iterator.hasNext()) {
+            Map.Entry<String, List<Map<String, String>>> item = (Map.Entry<String, List<Map<String, String>>>) iterator.next();
+            clone.remove(tableName);
+            ProgramDirective programDirective = new ProgramDirective(item.getValue(), tableInfo);
+            clone.put(tableName, programDirective);
+            _markeWrite.save(savePath, tableInfo.get("temp") + item.getKey(), null, clone);
+        }
     }
 
 }

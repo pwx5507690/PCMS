@@ -28,7 +28,7 @@
     </bean> 
    
     <bean id="_read" class="com.pcms.data.config.SqlRead"/>
-    <bean id="_webCache" class="com.pcms.cache。WebCache">
+    <bean id="_webCache" class="com.pcms.cache.Redis">
           <property name="_host">
            <value>${redis.host}</value>
        </property>

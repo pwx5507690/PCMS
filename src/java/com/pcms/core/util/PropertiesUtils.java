@@ -12,116 +12,116 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class PropertiesUtils {
-	public final static int BY_PROPERTIES = 1;
 
-	public final static int BY_RESOURCEBUNDLE = 2;
+    public final static int BY_PROPERTIES = 1;
 
-	public final static int BY_PROPERTYRESOURCEBUNDLE = 3;
+    public final static int BY_RESOURCEBUNDLE = 2;
 
-	public final static int BY_CLASS = 4;
+    public final static int BY_PROPERTYRESOURCEBUNDLE = 3;
 
-	public final static int BY_CLASSLOADER = 5;
+    public final static int BY_CLASS = 4;
 
-	public final static int BY_SYSTEM_CLASSLOADER = 6;
-	
-	public final static Properties loadProperties(File file) throws IOException 
-	{
-		Properties p = new Properties();
-		InputStream in = new BufferedInputStream(new FileInputStream(file));
-		p.load(in);
-		in.close();
-		return p;
-	}	
+    public final static int BY_CLASSLOADER = 5;
 
-	public final static Properties loadProperties(final String name, final int type) throws IOException 
-	{
-		Properties p = new Properties();
-		InputStream in = null;
-		if (type == BY_PROPERTIES) {
-			in = new BufferedInputStream(new FileInputStream(name));
+    public final static int BY_SYSTEM_CLASSLOADER = 6;
 
-			p.load(in);
-		} else if (type == BY_RESOURCEBUNDLE) {
-			ResourceBundle rb = ResourceBundle.getBundle(name, Locale
-					.getDefault());
+    public final static Properties loadProperties(File file) throws IOException {
+        Properties p = new Properties();
+        InputStream in = new BufferedInputStream(new FileInputStream(file));
+        p.load(in);
+        in.close();
+        return p;
+    }
 
-			p = new ResourceBundleAdapter(rb);
-		} else if (type == BY_PROPERTYRESOURCEBUNDLE) {
-			in = new BufferedInputStream(new FileInputStream(name));
+    public final static Properties loadProperties(final String name, final int type) throws IOException {
+        Properties p = new Properties();
+        InputStream in = null;
+        if (type == BY_PROPERTIES) {
+            in = new BufferedInputStream(new FileInputStream(name));
 
-			ResourceBundle rb = new PropertyResourceBundle(in);
-			p = new ResourceBundleAdapter(rb);
-		} else if (type == BY_CLASS) {
+            p.load(in);
+        } else if (type == BY_RESOURCEBUNDLE) {
+            ResourceBundle rb = ResourceBundle.getBundle(name, Locale
+                    .getDefault());
 
-			in = PropertiesUtils.class.getResourceAsStream(name);
+            p = new ResourceBundleAdapter(rb);
+        } else if (type == BY_PROPERTYRESOURCEBUNDLE) {
+            in = new BufferedInputStream(new FileInputStream(name));
 
-			p.load(in);
-			//     return new JProperties().getClass().getResourceAsStream(name); 
-		} else if (type == BY_CLASSLOADER) {
-			in = PropertiesUtils.class.getClassLoader().getResourceAsStream(name);
-			p.load(in);
-			//     return new JProperties().getClass().getClassLoader().getResourceAsStream(name); 
-		} else if (type == BY_SYSTEM_CLASSLOADER) {
-			in = ClassLoader.getSystemResourceAsStream(name);
-			p.load(in);
-		}
+            ResourceBundle rb = new PropertyResourceBundle(in);
+            p = new ResourceBundleAdapter(rb);
+        } else if (type == BY_CLASS) {
 
-		if (in != null) {
-			in.close();
-		}
-		return p;
+            in = PropertiesUtils.class.getResourceAsStream(name);
 
-	}
-	
-	public static class ResourceBundleAdapter extends Properties {
-		public ResourceBundleAdapter(ResourceBundle rb) {
-			this.rb = rb;
-			java.util.Enumeration e = rb.getKeys();
-			while (e.hasMoreElements()) {
-				Object o = e.nextElement();
-				this.put(o, rb.getObject((String) o));
-			}
-		}
+            p.load(in);
+            //     return new JProperties().getClass().getResourceAsStream(name); 
+        } else if (type == BY_CLASSLOADER) {
+            in = PropertiesUtils.class.getClassLoader().getResourceAsStream(name);
+            p.load(in);
+            //     return new JProperties().getClass().getClassLoader().getResourceAsStream(name); 
+        } else if (type == BY_SYSTEM_CLASSLOADER) {
+            in = ClassLoader.getSystemResourceAsStream(name);
+            p.load(in);
+        }
 
-		private ResourceBundle rb = null;
+        if (in != null) {
+            in.close();
+        }
+        return p;
 
-		public ResourceBundle getBundle(String baseName) {
-			return ResourceBundle.getBundle(baseName);
-		}
+    }
 
-		public ResourceBundle getBundle(String baseName, Locale locale) {
-			return ResourceBundle.getBundle(baseName, locale);
-		}
+    public static class ResourceBundleAdapter extends Properties {
 
-		public ResourceBundle getBundle(String baseName, Locale locale,
-				ClassLoader loader) {
-			return ResourceBundle.getBundle(baseName, locale, loader);
-		}
+        public ResourceBundleAdapter(ResourceBundle rb) {
+            this.rb = rb;
+            java.util.Enumeration e = rb.getKeys();
+            while (e.hasMoreElements()) {
+                Object o = e.nextElement();
+                this.put(o, rb.getObject((String) o));
+            }
+        }
 
-		public Enumeration getKeys() {
-			return rb.getKeys();
-		}
+        private ResourceBundle rb = null;
 
-		public Locale getLocale() {
-			return rb.getLocale();
-		}
+        public ResourceBundle getBundle(String baseName) {
+            return ResourceBundle.getBundle(baseName);
+        }
 
-		public Object getObject(String key) {
-			return rb.getObject(key);
-		}
+        public ResourceBundle getBundle(String baseName, Locale locale) {
+            return ResourceBundle.getBundle(baseName, locale);
+        }
 
-		public String getString(String key) {
-			return rb.getString(key);
-		}
+        public ResourceBundle getBundle(String baseName, Locale locale,
+                ClassLoader loader) {
+            return ResourceBundle.getBundle(baseName, locale, loader);
+        }
 
-		public String[] getStringArray(String key) {
-			return rb.getStringArray(key);
-		}
+        public Enumeration getKeys() {
+            return rb.getKeys();
+        }
 
-		protected Object handleGetObject(String key) {
-			return ((PropertyResourceBundle) rb).handleGetObject(key);
-		}
+        public Locale getLocale() {
+            return rb.getLocale();
+        }
 
-	}
+        public Object getObject(String key) {
+            return rb.getObject(key);
+        }
+
+        public String getString(String key) {
+            return rb.getString(key);
+        }
+
+        public String[] getStringArray(String key) {
+            return rb.getStringArray(key);
+        }
+
+        protected Object handleGetObject(String key) {
+            return ((PropertyResourceBundle) rb).handleGetObject(key);
+        }
+
+    }
 
 }

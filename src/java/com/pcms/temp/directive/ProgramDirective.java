@@ -12,10 +12,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import java.io.IOException;
 import java.util.Map;
-import com.pcms.temp.custom.CustomProgramTempParam;
-import com.pcms.temp.custom.CustomTempParam;
-import com.pcms.temp.custom.CustomPageProperty;
 import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
+import java.util.List;
 
 /**
  *
@@ -23,34 +21,20 @@ import static freemarker.template.ObjectWrapper.DEFAULT_WRAPPER;
  */
 public class ProgramDirective extends com.pcms.common.Common implements TemplateDirectiveModel {
 
-    private final CustomProgramTempParam _programItem;
+    private final List<Map<String, String>> _data;
 
     private final Map<String, String> _tableInfo;
 
-    public ProgramDirective(CustomTempParam programItem, Map<String, String> tableInfo) {
-        _programItem = programItem.converToCustomProgramTempParam();
+    public ProgramDirective(List<Map<String, String>> data, Map<String, String> tableInfo) {
+        _data = data;
         _tableInfo = tableInfo;
     }
 
     @Override
     public void execute(Environment env, Map map, TemplateModel[] tms, TemplateDirectiveBody body) throws TemplateException, IOException {
-        if (map.containsKey(CustomPageProperty.ORDER)) {
-            _programItem.setOrder(map.get(CustomPageProperty.ORDER).toString());
-        }
-
-        if (map.containsKey(CustomPageProperty.WHERE)) {
-            _programItem.setWhere(map.get(CustomPageProperty.WHERE).toString());
-        }
-
-        if (map.containsKey(CustomPageProperty.COUNT)) {
-            _programItem.setCount(Integer.valueOf(map.get(CustomPageProperty.COUNT).toString()));
-        } else {
-            _programItem.setCount(-1);
-        }
-
         try {
             env.setVariable(_tableInfo.get("tagName"),
-                    DEFAULT_WRAPPER.wrap(_programItem.getQueryResult()));
+                    DEFAULT_WRAPPER.wrap(_data));
             body.render(env.getOut());
         } catch (TemplateException ex) {
             _log.error(ex.getMessage());

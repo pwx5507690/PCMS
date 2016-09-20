@@ -21,6 +21,7 @@
 		com.pcms.listener.SessionListener
 	</listener-class>  
   </listener>
+  
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -106,4 +107,7 @@
     <servlet-name>jsp</servlet-name>
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>
+<welcome-file-list>  
+  <welcome-file>system.html</welcome-file>  
+</welcome-file-list>  
 </web-app>

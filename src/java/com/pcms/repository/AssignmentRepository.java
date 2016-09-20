@@ -16,7 +16,7 @@ import com.pcms.cache.Redis;
 import com.pcms.data.IDataSource;
 import com.pcms.data.config.SqlRead;
 
-@Repository("_assignmentRepository ")
+@Repository("_assignmentRepository")
 public class AssignmentRepository implements Runnable {
 
     private final Log _log = LogFactory.getLog(getClass());

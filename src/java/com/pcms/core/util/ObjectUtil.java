@@ -15,11 +15,11 @@ import net.sf.json.JSONObject;
 public class ObjectUtil {
 
     public static Map<String, String> jsonToMap(String json) {
-       return ObjectUtil.jsonToObject(json);
+        return (Map<String, String>) ObjectUtil.jsonToObject(json, Map.class);
     }
-    
-    public static <T> T jsonToObject(String json) {
+
+    public static <T> T jsonToObject(String json, Class<T> t) {
         JSONObject jsonObject = JSONObject.fromObject(json);
-        return (T) JSONObject.toBean(jsonObject);
+        return (T) JSONObject.toBean(jsonObject, t);
     }
 }

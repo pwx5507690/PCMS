@@ -32,9 +32,9 @@ public class ArticleGenerate extends BaseGenerate {
         // 生成一个副本 避免操作数据缓存
         Map<String, Object> clone = new HashMap();
         clone.putAll(root);
-        clone.remove(tableName);
 
         for (Map<String, String> item : data) {
+            clone.remove(tableName);
             ArticleDirective articleDirective = new ArticleDirective(item, _customTempData.getTableByName(tableName));
             clone.put(tableName, articleDirective);
             _markeWrite.save(savePath, item.get("temp"), null, clone);

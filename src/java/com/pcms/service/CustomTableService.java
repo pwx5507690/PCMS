@@ -28,6 +28,10 @@ public class CustomTableService {
         return _customformRepository.query(table);
     }
 
+    public List<Map<String, String>> query(String tableName,String where,String orderBy){
+       return _customformRepository.queryDataByTableName(tableName,where, orderBy);   
+    }
+    
     public List<Map<String, String>> query(String tableName,List<SqlFieldWhere> where, List<String> order, String type) {
         OrderBy orderBy = null;       
         if (OrderBy.OrderByType.DESC.toString().equals(type)) {

@@ -10,11 +10,7 @@ import java.util.Properties;
 
 public class SendMail {
     private static Logger logger = Logger.getLogger(SendMail.class);
-    
-    public class MailModal{
-        	
-    }
-    
+       
     public static void send(String smtp, final String user, final String password, String subject, String content, String from, String to) {
         try {
             Properties props = new Properties();

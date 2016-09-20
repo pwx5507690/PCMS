@@ -21,6 +21,7 @@
 
     <context:component-scan base-package="com.pcms.service" />
     <context:component-scan base-package="com.pcms.repository" />
+   
     <context:annotation-config />
     <aop:aspectj-autoproxy/>
     <!--<bean id="cacheBeanPostProcessor" class="com.rtel.cts.interceptors.CacheBeanPostProcessor"/>  --> 
