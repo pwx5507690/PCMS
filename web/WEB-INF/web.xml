@@ -10,7 +10,7 @@
     <param-value>/WEB-INF/config/context.xml,
     /WEB-INF/config/jdbc.xml</param-value>
   </context-param>
-  
+ 
   <listener>
    <listener-class>
 	 com.pcms.listener.InitListener
@@ -108,6 +108,6 @@
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>
 <welcome-file-list>  
-  <welcome-file>system.html</welcome-file>  
+  <welcome-file>/admin/system.html</welcome-file>  
 </welcome-file-list>  
 </web-app>
