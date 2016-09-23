@@ -20,7 +20,7 @@ public class CustomformController extends BaseController {
 
     private CustomTableService _customTableService;
 
-    @RequestMapping(value = "add/{table}", method = RequestMethod.POST)
+    @RequestMapping(value = "add/{type}", method = RequestMethod.POST)
     @ResponseBody
     public ModalResult create(@PathVariable String table, @RequestBody Map<String, SqlField> param) {
         return new ModalResult();

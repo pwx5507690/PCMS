@@ -5,4 +5,6 @@ import java.util.List;
 public interface ISynchronizeData {
 
     public List<?> getData();
+    
+    public String getCacheName();
 }

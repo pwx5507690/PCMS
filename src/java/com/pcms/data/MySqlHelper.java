@@ -20,7 +20,6 @@ public class MySqlHelper extends DataBase implements IDataSource {
             _log.info(sql);
         } catch (SQLException e) {
             _log.error(e.getMessage());
-            e.printStackTrace();
         }
         this.close();
     }
@@ -42,8 +41,8 @@ public class MySqlHelper extends DataBase implements IDataSource {
 
     @Override
     public List<Map<String, String>> getMap(String sql) {
+         _log.info(sql);
         List<Map<String, String>> maps = null;
-
         try {
 
             this.openConnection();

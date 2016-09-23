@@ -1,5 +1,6 @@
 package com.pcms.cache;
 
+import com.pcms.core.util.ObjectUtil;
 import java.util.Set;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -7,7 +8,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-public class Redis {
+public class Redis extends com.pcms.common.Common {
 
     private JedisPool _jedisPool;
 
@@ -53,8 +54,8 @@ public class Redis {
 
     private GenericObjectPoolConfig initPoolConfig() {
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
-        config.setMaxIdle(300);
-        config.setMaxTotal(1000);
+        config.setMaxIdle(10);
+        config.setMaxTotal(10);
         config.setMaxWaitMillis(1000);
         config.setTestOnReturn(true);
         config.setTestOnBorrow(true);
@@ -74,28 +75,31 @@ public class Redis {
             jedis = before().getResource();
             result = jedis.keys("*");
         } catch (Exception e) {
+            _log.error(e.getMessage());
             _jedisPool.returnBrokenResource(jedis);
+
         } finally {
             _jedisPool.returnResource(jedis);
         }
         return result;
     }
 
-    public void set(String key,String value,int timer){
-         Jedis jedis = null;
+    public void set(String key, String value, int timer) {
+        Jedis jedis = null;
         try {
             jedis = before().getResource();
             jedis.del(key);
             jedis.setex(key, _port, value);
 
         } catch (Exception e) {
+            _log.error(e.getMessage());
             _jedisPool.returnBrokenResource(jedis);
         } finally {
             _jedisPool.returnResource(jedis);
         }
-               
+
     }
-    
+
     public void set(String key, String value) {
         Jedis jedis = null;
         try {
@@ -104,10 +108,45 @@ public class Redis {
             jedis.set(key, value);
 
         } catch (Exception e) {
+            _log.error(e.getMessage());
             _jedisPool.returnBrokenResource(jedis);
         } finally {
             _jedisPool.returnResource(jedis);
         }
+    }
+
+    public void setObject(String key, Object value) {
+        Jedis jedis = null;
+        try {
+            jedis = before().getResource();
+            jedis.del(key.getBytes());
+            jedis.set(key.getBytes(), ObjectUtil.serialize(value));
+        } catch (Exception e) {
+            _log.error(e.getMessage());
+            _jedisPool.returnBrokenResource(jedis);
+        } finally {
+            _jedisPool.returnResource(jedis);
+        }
+    }
+
+    public Object getObject(String key) {
+        Jedis jedis = null;
+        byte[] value = null;
+        try {
+            jedis = before().getResource();
+            value = jedis.get(key.getBytes());
+            _log.info("value"+value.toString());
+            if (value == null) {
+                return null;
+            }
+            return ObjectUtil.deserialize(value);
+        } catch (Exception e) {
+            _log.error(e.getMessage());
+            _jedisPool.returnBrokenResource(jedis);
+        } finally {
+            _jedisPool.returnResource(jedis);
+        }
+        return null;
     }
 
     public String get(String key) {
@@ -117,6 +156,7 @@ public class Redis {
             jedis = before().getResource();
             value = jedis.get(key);
         } catch (Exception e) {
+            _log.error(e.getMessage());
             _jedisPool.returnBrokenResource(jedis);
         } finally {
             _jedisPool.returnResource(jedis);

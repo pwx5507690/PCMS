@@ -37,7 +37,7 @@ public abstract class LanguageRepository extends BaseRepository {
 
     @Override
     public boolean isCacheQuery() {
-        return true;
+        return false;
     }
 
 }

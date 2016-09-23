@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author wx.pan
  */
 @Service("_languageService")
-public class LanguageService {
+public class LanguageService extends com.pcms.common.Common {
 
     @Autowired
     private LanguageEnRepository _languageEnRepository;
@@ -37,9 +37,10 @@ public class LanguageService {
     }
 
     private LanguageRepository factory() {
+        _log.info(this._type);
         if (this._type.equals("en")) {
             return _languageEnRepository;
-        } else if (this._type.equals("ch")) {
+        } else if (this._type.equals("zh")) {
             return _languageChRepository;
         }
         return _languageChRepository;
@@ -55,8 +56,8 @@ public class LanguageService {
     /**
      * @param _type the _type to set
      */
-    public void setType(String _type) {
-        this._type = _type;
+    public void setType(String type) {
+        this._type = type;
     }
 
 }

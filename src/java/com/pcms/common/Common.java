@@ -21,7 +21,6 @@ import org.apache.commons.logging.LogFactory;
 public class Common implements Serializable {
 
     protected final Log _log;
-
  
     @SuppressWarnings("unchecked")
     public Common() {
@@ -32,12 +31,6 @@ public class Common implements Serializable {
         return clone(this);
     }
 
-    /**
-     *
-     * @param <T> 对象
-     * @param obj 对象类型
-     * @return 对象 拷贝对象
-     */
     public <T extends Serializable> T clone(T obj) {
         T clonedObj = null;
         try {

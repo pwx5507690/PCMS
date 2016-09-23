@@ -47,7 +47,7 @@ public class PlugsRepository extends BaseRepository {
 
     @Override
     public boolean isCacheQuery() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
     
 }

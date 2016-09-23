@@ -7,13 +7,12 @@ package com.pcms.repository;
 
 import com.pcms.synchronize.ISynchronizeData;
 import com.pcms.cache.Redis;
-import com.pcms.common.Common;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CacheRepository extends Common {
+public abstract class CacheRepository extends DataFactoryRepository {
 
     private class SyncTask implements Runnable {
 
@@ -22,7 +21,7 @@ public class CacheRepository extends Common {
         public ISynchronizeData _iSynchronizeData;
 
         public ScheduledExecutorService _service;
-
+        
         public int _timer;
 
         public SyncTask(int timer, ISynchronizeData iSynchronizeData) {
@@ -39,8 +38,8 @@ public class CacheRepository extends Common {
 
         @Override
         public void run() {
-            //  CacheRepository.this._redis.set(key, value);
-            //    _iSynchronizeData.getData();
+            _iSynchronizeData.getData();
+              CacheRepository.this.setCacheToObejct(_iSynchronizeData.getCacheName(), _iSynchronizeData.getData());
         }
 
         public void stop() {
@@ -53,7 +52,7 @@ public class CacheRepository extends Common {
     protected Redis _redis;
 
     public void runSynchronizeData(int timer, ISynchronizeData iSynchronizeData) {
-         new SyncTask(timer, iSynchronizeData).start();
+        new SyncTask(timer, iSynchronizeData).start();
     }
 
     public void addCache(String key, String value) {
@@ -64,7 +63,15 @@ public class CacheRepository extends Common {
         _redis.set(key, value, timer);
     }
 
-    public void getCache(String key) {
-        _redis.get(key);
+    public void setCacheToObejct(String key, Object value){
+        _redis.setObject(key, value);
+    }
+    
+    public String getCache(String key) {
+        return _redis.get(key);
+    }
+    
+    public Object getCacheToObejct(String key) {
+        return _redis.getObject(key);
     }
 }
