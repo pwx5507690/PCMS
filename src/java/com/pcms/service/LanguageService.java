@@ -32,6 +32,10 @@ public class LanguageService extends com.pcms.common.Common {
         return this.factory().add(values);
     }
 
+    public int update(Map<String, String> values) {
+        return -1;
+    }
+
     public List<Map<String, String>> query() {
         return this.factory().query();
     }

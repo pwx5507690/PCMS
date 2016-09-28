@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class BaseRepository extends CacheRepository implements ISynchronizeData {
-    
+
     private static final int TIMER = 86400000;
-    
-    public BaseRepository() {
+
+    public void run() {
         if (isCacheQuery()) {
             super.runSynchronizeData(TIMER, this);
         }
@@ -19,38 +19,38 @@ public abstract class BaseRepository extends CacheRepository implements ISynchro
     public List<?> getData() {
         return this.query();
     }
-    
+
     @Override
     public String getCacheName() {
         return this.getTableName();
     }
-    
+
     @Override
     public List<Map<String, String>> query() {
         String name = this.getTableName();
-          _log.info(isCacheQuery());
+        _log.info(isCacheQuery());
         if (!isCacheQuery()) {
             return super.query();
         }
-      
+
         Object object = this.getCacheToObejct(name);
-          _log.info("object"+object.toString());
+        _log.info("object" + object.toString());
         if (object != null) {
             return (List<Map<String, String>>) object;
         } else {
             List<Map<String, String>> result = super.query();
-            _log.info("result"+result.size());
+            _log.info("result" + result.size());
             super.setCacheToObejct(name, result);
             return result;
         }
     }
-    
+
     @Override
     public int add(Map<String, String> values) {
         super.setCacheToObejct(this.getTableName(), this.query().add(values));
         return super.add(values);
     }
-    
+
     public List<Map<String, String>> queryObject(String name, String value) {
         List<Map<String, String>> query = this.query();
         _log.debug(query.size());
@@ -63,6 +63,6 @@ public abstract class BaseRepository extends CacheRepository implements ISynchro
         }
         return result;
     }
-    
+
     public abstract boolean isCacheQuery();
 }

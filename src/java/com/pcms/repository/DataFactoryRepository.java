@@ -43,6 +43,8 @@ public abstract class DataFactoryRepository extends Common {
 
     protected final String _automaticDateTime;
 
+    protected final String _updateCustomTable;
+
     public DataFactoryRepository() {
         _insertDyncTable = "insertCustomTable";
         _dyncTable = "queryCustomTable";
@@ -50,6 +52,7 @@ public abstract class DataFactoryRepository extends Common {
         _dyncTablePage = "queryCustomTableForPage";
         _dyncTableWhere = "queryCustomTableWhere";
         _automaticUuid = "id";
+        _updateCustomTable = "updateCustomTable";
         _automaticDateTime = "updateTime";
     }
 
@@ -146,6 +149,18 @@ public abstract class DataFactoryRepository extends Common {
             _log.error(e.getMessage());
             return -1;
         }
+    }
+
+    public int update(Map<String, String> values, List<SqlFieldWhere> where) {
+        String name = getTableName();
+        Map<String, SqlField> params = this.getParams();
+        Iterator iterator = params.entrySet().iterator();
+         while (iterator.hasNext()) {
+            Map.Entry<String, SqlField> entry = (Map.Entry<String, SqlField>) iterator.next();
+           //values.containsKey(entry.getKey())  .equals(name) SqlField sqlField = entry.getValue();
+            
+        }
+        return -1;
     }
 
     public int remove(String value) {

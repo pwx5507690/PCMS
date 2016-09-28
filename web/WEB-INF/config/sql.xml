@@ -23,5 +23,9 @@
     <item id="queryCustomTableWhere">
         select * from %s Where %s
    </item> 
-
+   
+   <item id="updateCustomTable">
+        update %s set %s where %s 
+   </item>
+   
 </root>
