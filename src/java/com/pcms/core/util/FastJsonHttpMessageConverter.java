@@ -15,78 +15,69 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
-/**
- * 使spring mvc与fastjson结合
- * 
- * 利用@ResponseBody注解返回JSON字符串
- * 
- * @author 孙宇
- * 
- */
 public class FastJsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
 
-	public final static Charset UTF8 = Charset.forName("UTF-8");
+    public final static Charset UTF8 = Charset.forName("UTF-8");
 
-	private Charset charset = UTF8;
+    private Charset charset = UTF8;
 
-	private SerializerFeature[] serializerFeature;
+    private SerializerFeature[] serializerFeature;
 
-	@Override
-	protected boolean supports(Class<?> clazz) {
-		return true;
-	}
+    @Override
+    protected boolean supports(Class<?> clazz) {
+        return true;
+    }
 
-	@Override
-	protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+    @Override
+    protected Object readInternal(Class<? extends Object> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream in = inputMessage.getBody();
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        for (;;) {
+            int len = in.read(buf);
+            if (len == -1) {
+                break;
+            }
 
-		InputStream in = inputMessage.getBody();
+            if (len > 0) {
+                baos.write(buf, 0, len);
+            }
+        }
 
-		byte[] buf = new byte[1024];
-		for (;;) {
-			int len = in.read(buf);
-			if (len == -1) {
-				break;
-			}
+        byte[] bytes = baos.toByteArray();
+        if (charset == UTF8) {
+            return JSON.parseObject(bytes, clazz);
+        } else {
+            return JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
+        }
+    }
 
-			if (len > 0) {
-				baos.write(buf, 0, len);
-			}
-		}
+    @Override
+    protected void writeInternal(Object obj, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 
-		byte[] bytes = baos.toByteArray();
-		if (charset == UTF8) {
-			return JSON.parseObject(bytes, clazz);
-		} else {
-			return JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
-		}
-	}
+        OutputStream out = outputMessage.getBody();
+        byte[] bytes;
 
-	@Override
-	protected void writeInternal(Object obj, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        if (charset == UTF8) {
+            if (serializerFeature != null) {
+                bytes = JSON.toJSONBytes(obj, serializerFeature);
+                System.out.println(bytes);
+            } else {
+                bytes = JSON.toJSONBytes(obj, SerializerFeature.WriteDateUseDateFormat);
+            }
 
-		OutputStream out = outputMessage.getBody();
-		byte[] bytes;
+        } else {
+            String text;
+            if (serializerFeature != null) {
+                text = JSON.toJSONString(obj, serializerFeature);
+            } else {
+                text = JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat);
+            }
+            bytes = text.getBytes(charset);
+        }
 
-		if (charset == UTF8) {
-			if (serializerFeature != null) {
-				bytes = JSON.toJSONBytes(obj, serializerFeature);
-			} else {
-				bytes = JSON.toJSONBytes(obj, SerializerFeature.WriteDateUseDateFormat);
-			}
-
-		} else {
-			String text;
-			if (serializerFeature != null) {
-				text = JSON.toJSONString(obj, serializerFeature);
-			} else {
-				text = JSON.toJSONString(obj, SerializerFeature.WriteDateUseDateFormat);
-			}
-			bytes = text.getBytes(charset);
-		}
-
-		out.write(bytes);
-	}
+        out.write(bytes);
+    }
 
 }

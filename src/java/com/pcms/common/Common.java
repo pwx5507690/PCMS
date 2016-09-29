@@ -15,22 +15,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * 
+ *
  * @author wx.pan
  */
 public class Common implements Serializable {
-
+    
     protected final Log _log;
- 
+    
     @SuppressWarnings("unchecked")
     public Common() {
         _log = LogFactory.getLog(getClass());
     }
-
+    
     protected Common cpoy() {
         return clone(this);
     }
-
+    
+    protected void error(Exception ex) {
+        _log.error(ex.getMessage());
+    }
+    
     public <T extends Serializable> T clone(T obj) {
         T clonedObj = null;
         try {

@@ -13,7 +13,6 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 		
-
 	}
 
 	@Override

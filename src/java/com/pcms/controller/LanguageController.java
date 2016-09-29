@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,18 +38,27 @@ public class LanguageController extends BaseController {
 
     @RequestMapping(value = "update/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public ModalResult update(@PathVariable(value = "type") String type, @ModelAttribute("values") Map<String, String> values) {
+    public ModalResult update(@PathVariable(value = "type") String type, @RequestBody Map<String, String> values) {
         _languageService.setType(type);
         return this.setClientResult(_languageService.add(values)).getModalResult();
     }
 
     @RequestMapping(value = "add/{type}", method = RequestMethod.POST)
     @ResponseBody
-    public ModalResult add(@PathVariable(value = "type") String type, @ModelAttribute("values") Map<String, String> values) {
+    public ModalResult add(@PathVariable(value = "type") String type, @RequestBody Map<String, String> values) {
         _languageService.setType(type);
         return this.setClientResult(_languageService.add(values)).getModalResult();
     }
 
+    @RequestMapping("get/{type}/current/{currentPage}/pagesize/{pagesize}")
+    @ResponseBody
+    public List<Map<String, String>> getLanguage(@PathVariable(value = "type") String type,
+            @PathVariable(value = "currentPage") String currentPage,
+            @PathVariable(value = "pagesize") String pagesize) {
+        _languageService.setType(type);
+        return _languageService.query();
+    }
+    
     @RequestMapping("{type}")
     @ResponseBody
     public List<Map<String, String>> get(@PathVariable(value = "type") String type) {

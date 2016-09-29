@@ -31,17 +31,20 @@ public class LanguageService extends com.pcms.common.Common {
     public int add(Map<String, String> values) {
         return this.factory().add(values);
     }
-
+   
     public int update(Map<String, String> values) {
         return -1;
     }
 
+     public List<Map<String, String>> query(int currentPage,int pageSize) {
+        return this.factory().query();
+    }
+    
     public List<Map<String, String>> query() {
         return this.factory().query();
     }
 
     private LanguageRepository factory() {
-        _log.info(this._type);
         if (this._type.equals("en")) {
             return _languageEnRepository;
         } else if (this._type.equals("zh")) {
@@ -50,16 +53,10 @@ public class LanguageService extends com.pcms.common.Common {
         return _languageChRepository;
     }
 
-    /**
-     * @return the _type
-     */
     public String getType() {
         return _type;
     }
 
-    /**
-     * @param _type the _type to set
-     */
     public void setType(String type) {
         this._type = type;
     }

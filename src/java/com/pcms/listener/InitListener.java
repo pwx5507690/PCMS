@@ -17,6 +17,6 @@ public class InitListener extends ContextLoaderListener {
     public void contextInitialized(ServletContextEvent event) {
         super.contextInitialized(event);
         ServletContext application = event.getServletContext();
-      //  PropertyConfigurator.configure(application.getRealPath("/") + "WEB-INF/config/log4j.properties");
+        PropertyConfigurator.configure(application.getRealPath("/") + "WEB-INF/config/log4j.properties");
     }
 }

@@ -10,7 +10,6 @@
     <param-value>/WEB-INF/config/context.xml,
     /WEB-INF/config/jdbc.xml</param-value>
   </context-param>
- 
   <listener>
    <listener-class>
 	 com.pcms.listener.InitListener
@@ -20,8 +19,7 @@
    <listener-class>
 		com.pcms.listener.SessionListener
 	</listener-class>  
-  </listener>
-  
+  </listener> 
  <filter>  
         <filter-name>characterEncodingFilter</filter-name>  
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  

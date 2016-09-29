@@ -21,7 +21,7 @@ public abstract class LanguageRepository extends BaseRepository {
     public Map<String, SqlField> getParams() {
         Map<String, SqlField> params = new HashMap<String, SqlField>();
         params.put("name", new SqlField(Field.STRING));
-        params.put("value", new SqlField(Field.INT));
+        params.put("value", new SqlField(Field.STRING));
         return params;
     }
 

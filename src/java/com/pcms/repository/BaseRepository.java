@@ -47,7 +47,9 @@ public abstract class BaseRepository extends CacheRepository implements ISynchro
 
     @Override
     public int add(Map<String, String> values) {
-        super.setCacheToObejct(this.getTableName(), this.query().add(values));
+        if (isCacheQuery()) {
+            super.setCacheToObejct(this.getTableName(), this.query().add(values));
+        }
         return super.add(values);
     }
 
